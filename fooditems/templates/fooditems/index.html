@@ -1,0 +1,18 @@
+{% extends 'fooditems/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+  </head>
+  <body>
+    {% block body %} {% for item in item_list %}
+    <ul>
+      <a href="{% url 'fooditems:detail' item.id %}">
+        <li>{{item.id}} -- {{item.item_name}}</li></a
+      >
+    </ul>
+    {% endfor %} {% endblock %}
+  </body>
+</html>
