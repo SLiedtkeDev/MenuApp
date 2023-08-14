@@ -22,6 +22,7 @@
           <h1>{{item.item_name}}</h1>
           <h2>{{item.item_description}}</h2>
           <h3>${{item.item_price}}</h3>
+          <a href="{% url 'fooditems:delete_item' item.id %}">Delete</a>
         </div>
       </div>
     </div>
