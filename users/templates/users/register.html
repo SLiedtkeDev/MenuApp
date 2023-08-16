@@ -1,4 +1,6 @@
+{% extends 'fooditems/base.html' %} {% block body %}
 <form method="POST">
-  {% csrf_token %} {{form}}
+  {% csrf_token %} {{form.as_p}}
   <button type="submit">signup</button>
 </form>
+{% endblock body %}

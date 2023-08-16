@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm
+from .forms import RegisterForm
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Create your views here.
@@ -7,12 +8,17 @@ from django.contrib import messages
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
+            form.save()
             username = form.cleaned_data.get('username')
             messages.success(
-                request, f'Welcome {username} your accouont is created')
-            return redirect('fooditems:index')
+                request, f'Welcome {username}')
+            return redirect('login')
     else:
-        form = UserCreationForm()
+        form = RegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def profilepage(request):
+    return render('users/profile.html')

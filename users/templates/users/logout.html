@@ -1,0 +1,6 @@
+{% extends 'fooditems/base.html' %}
+{% block body %} 
+  {% csrf_token %} {{form.as_p}}
+  <button type="submit">Logout</button>
+</form>
+{% endblock body %}
