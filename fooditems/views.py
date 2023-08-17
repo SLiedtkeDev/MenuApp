@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import item
 from django.template import loader
@@ -15,10 +16,6 @@ def index(request):
     return render(request, 'fooditems/index.html', context)
 
 
-def items(request):
-    return HttpResponse("<h1>This is an item</h1>")
-
-
 def detail(request, item_id):
     current_item = item.objects.get(pk=item_id)
     context = {
@@ -27,6 +24,7 @@ def detail(request, item_id):
     return render(request, 'fooditems/detail.html', context)
 
 
+@login_required
 def add_item(request):
     form = ItemForm(request.POST or None)
     if form.is_valid():
@@ -35,6 +33,7 @@ def add_item(request):
     return render(request, 'fooditems/item-form.html', {'form': form})
 
 
+@login_required
 def update_item(request, id):
     current_item = item.objects.get(id=id)
     form = ItemForm(request.POST or None, instance=current_item)
@@ -44,6 +43,7 @@ def update_item(request, id):
     return render(request, 'fooditems/item-form.html', {'form': form, 'item': current_item})
 
 
+@login_required
 def delete_item(request, id):
     current_item = item.objects.get(id=id)
     if request.method == "POST":
