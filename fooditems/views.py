@@ -2,26 +2,36 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import item
-from django.template import loader
 from .forms import ItemForm
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 
 # Create your views here.
 
 
-def index(request):
-    item_list = item.objects.all()
-    context = {
-        'item_list': item_list,
-    }
-    return render(request, 'fooditems/index.html', context)
+# def index(request):
+#     item_list = item.objects.all()
+#     context = {
+#         'item_list': item_list,
+#     }
+#     return render(request, 'fooditems/index.html', context)
+
+class IndexClassView(ListView):
+    model = item
+    template_name = 'fooditems/index.html'
+    context_object_name = 'item_list'
 
 
-def detail(request, item_id):
-    current_item = item.objects.get(pk=item_id)
-    context = {
-        'item': current_item,
-    }
-    return render(request, 'fooditems/detail.html', context)
+# def detail(request, item_id):
+#     current_item = item.objects.get(pk=item_id)
+#     context = {
+#         'item': current_item,
+#     }
+#     return render(request, 'fooditems/detail.html', context)
+
+class FoodDetailView(DetailView):
+    model = item
+    template_name = "fooditems/detail.html"
 
 
 @login_required
