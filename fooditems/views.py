@@ -1,3 +1,4 @@
+from django.forms.models import BaseModelForm
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -5,6 +6,7 @@ from .models import item
 from .forms import ItemForm
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 
@@ -34,13 +36,22 @@ class FoodDetailView(DetailView):
     template_name = "fooditems/detail.html"
 
 
-@login_required
-def add_item(request):
-    form = ItemForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('fooditems:index')
-    return render(request, 'fooditems/item-form.html', {'form': form})
+# def add_item(request):
+#     form = ItemForm(request.POST or None)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('fooditems:index')
+#     return render(request, 'fooditems/item-form.html', {'form': form})
+
+class CreateItem(CreateView):
+    model = item
+    fields = ['item_name', 'item_description', 'item_price', 'item_image']
+    template_name = 'fooditems/item-form.html'
+
+    @login_required
+    def form_valid(self, form):
+        form.instance.user_name = self.request.user
+        return super().form_valid(form)
 
 
 @login_required

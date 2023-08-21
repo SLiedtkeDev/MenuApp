@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 
@@ -14,3 +15,6 @@ class item(models.Model):
     item_price = models.IntegerField()
     item_image = models.CharField(
         max_length=500, default="https://www.signfix.com.au/wp-content/uploads/2017/09/placeholder-600x400.png")
+
+    def get_absolute_url(self):
+        return reverse("fooditems:detail", kwargs={"pk": self.pk})
